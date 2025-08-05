@@ -1,0 +1,76 @@
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        //Old solution
+
+        // HashSet<Integer> set1 = new HashSet<>();
+        // HashSet<Integer> set2 = new HashSet<>();
+
+        // for(int i = 0; i < graph.length; i++)
+        // {
+        //     if(!set1.contains(i) && !set2.contains(i))
+        //     {
+        //         if(graph[i].length != 0)
+        //         {
+        //             if(set1.contains(graph[i][0]))
+        //                 set2.add(i);
+        //             else
+        //                 set1.add(i);
+        //         }
+        //         else
+        //         set1.add(i);
+        //     }
+        //     if(set1.contains(i))
+        //     {
+        //         for(int j = 0; j < graph[i].length; j++)
+        //         {
+        //             if(set1.contains(graph[i][j]))
+        //             {
+        //                 return false;
+        //             }
+        //             else
+        //             {
+        //                 set2.add(graph[i][j]);
+        //             }
+        //         }   
+        //     }
+        //     else
+        //     {
+        //         for(int j = 0; j < graph[i].length; j++)
+        //         {
+        //             if(set2.contains(graph[i][j]))
+        //             {
+        //                 return false;
+        //             }
+        //             else
+        //             {
+        //                 set1.add(graph[i][j]);
+        //             }
+        //         }
+        //     }
+        // }
+        // return true;
+
+        Queue<Integer> q = new LinkedList<>();
+        int[] color = new int[graph.length];
+
+        for (int j = 0; j < graph.length; j++) {
+            if (color[j] == 0) {
+                q.add(j);
+                color[j] = -1;
+                while (!q.isEmpty()) {
+                    int i = q.poll();
+
+                    for (int ele : graph[i]) {
+                        if (color[ele] == 0) {
+                            color[ele] = color[i] * -1;
+                            q.add(ele);
+                        } else if (color[ele] == color[i]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}
